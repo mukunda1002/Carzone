@@ -28,12 +28,15 @@ DEBUG = True
 
 ALLOWED_HOSTS = []
 
+LOGIN_REDIRECT_URL = 'dashboard'
 
 # Application definition
 
 INSTALLED_APPS = [
     'cars.apps.CarsConfig',
     'pages.apps.PagesConfig',
+    'accounts.apps.AccountsConfig',
+    'contacts.apps.ContactsConfig',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -42,6 +45,14 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'ckeditor',
     'django.contrib.humanize',
+    'django.contrib.sites',
+    'allauth',
+    'allauth.account',
+    'allauth.socialaccount',
+
+    # Providers 
+    'allauth.socialaccount.providers.google',
+    # 'allauth.socialaccount.providers.facebook',
 ]
 
 MIDDLEWARE = [
@@ -52,6 +63,8 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    # Downloaded Middleware
+    'allauth.account.middleware.AccountMiddleware',
 ]
 
 ROOT_URLCONF = 'carzone.urls'
@@ -72,6 +85,18 @@ TEMPLATES = [
     },
 ]
 
+# SOCIAL_AUTH_GOOGLE_OAUTH2_KEY = '781884777375-cp5fojt8ejl5im8bkvn2du0pntknkcm7.apps.googleusercontent.com'
+# SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = 'qYMZu7TSCp3eLWToOKR6T3Ma7SOA'
+# SOCIAL_AUTH_LOGIN_REDIRECT_URL = 'dashboard'  # Redirect URL after successful login
+# SOCIAL_AUTH_LOGIN_URL = 'login'  # URL to the login page
+
+# AUTHENTICATION_BACKENDS = (
+#     'allauth.socialaccount.auth_backends.AuthenticationBackend',
+# )
+AUTHENTICATION_BACKENDS = [
+    'django.contrib.auth.backends.ModelBackend',
+    'allauth.account.auth_backends.AuthenticationBackend'
+]
 WSGI_APPLICATION = 'carzone.wsgi.application'
 
 
@@ -140,3 +165,25 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 # Media Settings
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 MEDIA_URL = '/media/'
+
+from django.contrib.messages import constants as messages
+
+MESSAGE_TAGS = {
+    messages.ERROR: 'danger',
+}
+
+SITE_ID = 3
+LOGIN_REDIRECT_URL = '/'
+
+# Additional configuration settings
+SOCIALACCOUNT_QUERY_EMAIL = True
+ACCOUNT_LOGOUT_ON_GET= True
+ACCOUNT_UNIQUE_EMAIL = True
+ACCOUNT_EMAIL_REQUIRED = True
+
+# Email Sending
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_PORT = 587
+EMAIL_HOST_USER = 'mukundamangroliya1002@gmail.com'
+EMAIL_HOST_PASSWORD = 'hmou reng tvjs wjvy'
+EMAIL_USE_TLS = True
